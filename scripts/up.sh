@@ -4,14 +4,6 @@
 
 set -e
 
-# will install dependencies locally.
-PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
-
-if [ "$PLATFORM" = "darwin" ]; then
-  echo 'PaSh is not yet well supported on OS X'
-  exit 1
-fi
-
 git clone https://github.com/binpash/pash.git
 ## TODO: Instead of using git, we could download the latest tarball
 ##       though this would need care because `pash` is not a git directory

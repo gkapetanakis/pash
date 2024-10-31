@@ -5,18 +5,13 @@ cd $(dirname $0)
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
 . "$PASH_TOP/scripts/utils.sh"
 
-if [[ $(uname) == 'Darwin' ]]; then
-    echo 'Currently pash can run only on Linux'
-    exit 1
-fi
-
 read_cmd_args $@
 cd $PASH_TOP
 
 # if we aren't running in docker, use sudo to install packages
 if ! ( isDockerBuildkit || isDocker || isDockerContainer )
 then
-  export SUDO="sudo"
+    export SUDO="sudo"
 fi
 
 if type lsb_release >/dev/null 2>&1 ; then
