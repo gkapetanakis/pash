@@ -1,6 +1,6 @@
 #include "eager_lib.h"
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__APPLE__)
 #define BUF_SIZE 8192
 #define min(a,b) (((a)<(b))?(a):(b))
 void fatal
