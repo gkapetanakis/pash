@@ -14,6 +14,25 @@ then
     export SUDO="sudo"
 fi
 
+# compile the list of the shared required packages
+pkgs="bc curl git graphviz python3 sudo wget"
+
+# handle the case of macOS
+if [[ $(uname) == 'Darwin' ]]; then
+    pkgs="$pkgs automake libtool"
+    if [[ "$show_deps" == 1 ]]; then
+        echo "$pkgs" | sort
+        exit 0
+    fi
+    echo "Updating mirrors"
+    # homebrew does not support sudo
+    brew update
+    echo "|-- running brew install...."
+    yes | brew install $pkgs
+    exit 0
+fi
+
+# handle the case of Linux
 if type lsb_release >/dev/null 2>&1 ; then
     distro=$(lsb_release -i -s)
 elif [ -e /etc/os-release ] ; then
@@ -22,8 +41,6 @@ fi
 
 # convert to lowercase
 distro=$(printf '%s\n' "$distro" | LC_ALL=C tr '[:upper:]' '[:lower:]')
-# compile the list of the shared required packages
-pkgs="bc curl git graphviz python3 sudo wget"
 # now do different things depending on distro
 case "$distro" in
     ubuntu*)  
